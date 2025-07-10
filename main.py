@@ -111,3 +111,17 @@ if __name__ == "__main__":
         reload=debug,
         log_level="info"
     )
+
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+def fake_verify_token(token: str = Depends(oauth2_scheme)):
+    if token != "crset-super-token":
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token inválido")
+    return {"user": "joao"}
+
+@app.get("/leads")
+def get_leads(user: dict = Depends(fake_verify_token)):
+    return [{"name": "Leonor"}, {"name": "Sónia"}, {"name": "Mike"}]
