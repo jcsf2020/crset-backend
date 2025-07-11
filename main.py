@@ -4,7 +4,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-# Middleware CORS para permitir chamadas do frontend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
