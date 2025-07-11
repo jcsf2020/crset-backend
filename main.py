@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import FastAPI, Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordBearer
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -25,6 +25,12 @@ def fake_verify_token(token: str = Depends(oauth2_scheme)):
 @app.get("/leads")
 def get_leads(user: dict = Depends(fake_verify_token)):
     return [{"name": "Leonor"}, {"name": "SÃ³nia"}, {"name": "Mike"}]
+
+@app.post("/leads")
+async def create_lead(request: Request, user: dict = Depends(fake_verify_token)):
+    data = await request.json()
+    print("í³¥ Nova lead recebida:", data)
+    return {"status": "ok", "lead": data}
 
 @app.get("/")
 def root():
