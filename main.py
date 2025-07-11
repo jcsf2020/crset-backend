@@ -29,7 +29,7 @@ def get_leads(user: dict = Depends(fake_verify_token)):
 @app.post("/leads")
 async def create_lead(request: Request, user: dict = Depends(fake_verify_token)):
     data = await request.json()
-    print("í³¥ Nova lead recebida:", data)
+    print("Nova lead recebida:", data)
     return {"status": "ok", "lead": data}
 
 @app.get("/")
